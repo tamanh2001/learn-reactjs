@@ -95,7 +95,7 @@ useEffect(()=>{
     });}
     const renderedTodoList = useMemo(()=>{
 
-        todoList.filter(todo => filteredStatus === 'all' || filteredStatus === todo.status);
+        return todoList.filter(todo => filteredStatus === 'all' || filteredStatus === todo.status);
     },[todoList,filteredStatus])
     // chỉ tính toán lại khi todoList hoặc filteredStatus thay đổi, còn không thì giữ nguyên.
     const handleTodoFormSubmit=(values)=>{
