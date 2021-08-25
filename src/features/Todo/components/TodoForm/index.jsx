@@ -1,9 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import InputField from 'components/form-controls/InputField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup";
-import InputField from '../../../../components/form-controls/InputField';
+
 
 
 
@@ -20,17 +21,20 @@ function TodoForm(props) {
         // khi lỗi xảy ra phải show được lỗi lên inputField
         
       });
-  
-    
-    const form = useForm({
-        defaultValues:{
-            title:'',
+      const form = useForm({
+        defaultValues: {
+            title: '',
         },
-        resolver: yupResolver(schema),
-        
-    });
+        resolver: yupResolver(schema)
+    })
+    
+    
     const handleSubmit = (values) => {
-        console.log('TodoForm:',values);
+        const{ onSubmit}= props;
+        if(onSubmit){
+            onSubmit(values);
+        }
+        form.reset();
 
     };
     return (

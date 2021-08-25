@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-
-import { NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import {  Redirect, Route, Switch } from 'react-router-dom';
 import TodoFeature from './features/Todo';
 import AlbumFeature from './features/Album';
 import productApi from './api/productApi';
+import CounterFeature from './features/Counter';
+import Header from 'components/Header';
 
 
 function App() {
@@ -19,20 +20,18 @@ function App() {
 
     }, []);
     return ( < div class = "App" >
-        Header
-
-        <p> < NavLink to = "/todos" > Todo </NavLink> </p >
-        <p> < NavLink to = "/album" > Album </NavLink> </p >
+        <Header />
         <Switch >
         <Redirect from = "/home" to = "/" exact />
         <Redirect from = "/post-list/:postId" to = "/posts/:postID" exact />
 
-        <Route path = "/" component = { TodoFeature }exact />
-        <Route path = "/todo-list" component = { TodoFeature }/>
+        <Route path = "/"
+        component = { CounterFeature } exact  />
+        <Route path = "/todo-list" component = { TodoFeature }/> 
         <Route path = "/album" component = { AlbumFeature }/> 
-        </Switch >
-        Footer 
-        </div>
+         </Switch >
+
+         </div>
     );
 }
 
