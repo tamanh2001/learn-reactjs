@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Avatar, Button, makeStyles, Typography } from '@material-ui/core';
+import { Avatar, Button, LinearProgress, makeStyles, Typography } from '@material-ui/core';
 import {  LockOutlined } from '@material-ui/icons';
 import InputField from 'components/form-controls/InputField';
 import PasswordField from 'components/form-controls/PasswordField';
@@ -11,6 +11,7 @@ import * as yup from "yup";
 
 const useStyles= makeStyles((theme) => ({
     root:{
+        position:'relative',
         paddingTop: theme.spacing(4),
     } ,
     avatar:{
@@ -24,7 +25,12 @@ const useStyles= makeStyles((theme) => ({
     submit:{
         margin: theme.spacing(3,0,2,0),
     },
-    
+    progress:{
+        position:'absolute',
+        top:theme.spacing(1),
+        left:0,
+        right:0,
+    }
 
 }));
 
@@ -36,7 +42,9 @@ function RegisterForm(props) {
     const classes= useStyles();
     // định nghĩa schema từ yup
     const schema = yup.object().shape({
-        fullName: yup.string().required('Please enter your full name')//không có string được truyền vào thì hiện required
+        fullName: yup
+        .string()
+        .required('Please enter your full name')//không có string được truyền vào thì hiện required
         .test('Should has at least two words','Please enter at least two words',(value)=>{
             console.log('Value',value);
              return value.split(' ').length >=2; //tách value ra bởi dấu cách rồi tạo thành mảng, .length để đếm độ dài của mảng.
@@ -44,9 +52,9 @@ function RegisterForm(props) {
         email: yup.string().required('Please enter your email.').email('Please enter a valid email address'),// có sẵn trong yup(github)
         passWord: yup.string().required('Please enter your password').min(6,'Please enter at least 6 character'),
         retypePassword: yup
-        .string()
-        .required('Please retype your password')
-        .oneOf([yup.ref('password')],'Password does not match'),//so sánh với tk passwword, nếu không match thì hiện thông báo lên
+            .string()
+            .required('Please retype your password')
+            .oneOf([yup.ref('passWord')],'Password does not match'),//so sánh với tk passwword, nếu không match thì hiện thông báo lên
       });
   
     
@@ -61,16 +69,18 @@ function RegisterForm(props) {
         resolver: yupResolver(schema),
         
     });
-    const handleSubmit = (values) => {
+    const handleSubmit = async (values) => {
         const {onSubmit}=props;
         if(onSubmit){
-            onSubmit(values);
+           await onSubmit(values); //khi chạy xong hàm này là submit thành công rồi reset
         }
         form.reset();
 
     };
+    const {isSubmitting}=form.formState;
     return (
         <div className={classes.root}>
+            {isSubmitting && <LinearProgress className={classes.progress}/>}
             <Avatar className={classes.avatar}>
                 <LockOutlined></LockOutlined>
             </Avatar>
@@ -83,7 +93,7 @@ function RegisterForm(props) {
                 <PasswordField name="passWord" label="Password" form={form} ></PasswordField>
                 <PasswordField name="retypePassword" label="Retype Password" form={form}></PasswordField>
 
-                <Button type="submit" className={classes.submit} variant="contained" color="primary" fullWidth >    
+                <Button disabled={isSubmitting} type="submit" className={classes.submit} variant="contained" color="primary" fullWidth >    
                     Create an account
                 </Button>
                 
