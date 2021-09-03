@@ -1,5 +1,6 @@
 import userApi from "api/userApi";
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import StorageKeys from "constants/storage-keys";
 
 
 
@@ -18,17 +19,39 @@ export const register = createAsyncThunk(
         return data.user;
     }
 );
+export const login = createAsyncThunk(
+    'users/login',
+    async(payload) => {
+        const data = await userApi.login(payload);
+        localStorage.setItem(StorageKeys.TOKEN, data.jwt);
+        localStorage.setItem(StorageKeys.USER, JSON.stringify(data.user));
+        return data.user;
+    }
+);
+
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        current: {},
+        current: JSON.parse(localStorage.getItem(StorageKeys.USER)) || {},
         settings: {},
     },
     // giá trị khởi tạo có thể dùng số chuỗi array ,..vv
-    reducers: {},
+    reducers: {
+        logout(state) {
+            //clear local storage
+            localStorage.removeItem(StorageKeys.TOKEN);
+            localStorage.removeItem(StorageKeys.USER);
+            state.current = {};
+
+            //reset state current về object rỗng
+        }
+    },
     extraReducers: {
         [register.fulfilled]: (state, action) => { //khi đăng kí thành công(fulfilled), nhận vào giá trị
+            state.current = action.payload; //cập nhật vào current = payload được return ở trên
+        },
+        [login.fulfilled]: (state, action) => { //khi đăng kí thành công(fulfilled), nhận vào giá trị
             state.current = action.payload; //cập nhật vào current = payload được return ở trên
         },
     },
@@ -36,6 +59,7 @@ const userSlice = createSlice({
 });
 
 
-const { reducer } = userSlice;
+const { actions, reducer } = userSlice;
+export const { logout } = actions;
 
 export default reducer;

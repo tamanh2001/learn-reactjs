@@ -1,7 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import PropTypes from 'prop-types';
+import React from 'react';
 import './styles.scss';
+
 
 TodoList.propTypes = {
     todoList: PropTypes.array,
@@ -19,7 +20,12 @@ function TodoList({ todoList, onTodoClick }) {
 
         onTodoClick(todo, idx);
     }
+    
+
+   
+   
     return (
+       
         <ul className="todo-List">
             {
                 todoList.map((todo, idx) => (
@@ -36,8 +42,14 @@ function TodoList({ todoList, onTodoClick }) {
 
                     >{todo.title}</li>
                 ))
+                    
+                          
+               
             }
-        </ul>
+
+        </ul> 
+        
+        
     );
 }
 

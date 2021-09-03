@@ -2,6 +2,7 @@ import axios from "axios";
 
 const axiosClient = axios.create({
     baseURL: 'https://api.ezfrontend.com/',
+    // baseURL: 'https://sample-api-cuongnc.herokuapp.com/',
     headers: {
         'Content-Type': 'application/json',
     },
@@ -24,6 +25,18 @@ axiosClient.interceptors.response.use(function(response) {
 }, function(error) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    console.log('Error response:', error.response);
+    const { config, status, data } = error.response;
+    const URLS = ['/auth/local/register', '/auth/local'];
+    if (URLS.includes(config.url) && status === 400) {
+        const errorList = data.data || [];
+        const firstError = errorList.length > 0 ? errorList[0] : {};
+        //nếu chiều dài error >0 thì lấy cái đầu tiên còn ko thì cho nó object rỗng
+        const messageList = firstError.messages || [];
+        const firstMessage = messageList.length > 0 ? messageList[0] : {};
+        throw new Error(firstMessage.message);
+
+    }
     return Promise.reject(error);
 });
 

@@ -4,6 +4,7 @@ import {decrease, increase }from './counterSlice';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+
 const useStyles = makeStyles({
   root: {
     background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
@@ -21,6 +22,7 @@ CounterFeature.propTypes = {
 };
 
 function CounterFeature(props) {
+    
     const classes= useStyles();
     const dispatch = useDispatch();
     const count= useSelector(state => state.count); //lấy biến state từ rootState bên store ra
@@ -37,6 +39,8 @@ function CounterFeature(props) {
         dispatch(action);//gửi action lên redux;
 
     }
+    
+    
     return (
         <div>
             Counter: {count}
@@ -44,6 +48,7 @@ function CounterFeature(props) {
              <Button className={classes.root} onClick={handleIncreaseClick}>Increase</Button>
              <Button className={classes.root} onClick={handleDecreaseClick}>Decrease</Button>
          </div>
+           
         </div>
     );
 }
