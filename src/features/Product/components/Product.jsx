@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Box, Typography } from '@material-ui/core';
 import { STATIC_HOST } from 'constants/index';
 import { THUMBNAIL_PLACEHOLDER } from 'constants/index';
+import { useHistory } from 'react-router-dom';
+import { formatPrice } from '../utils';
 
 
 
@@ -15,10 +17,14 @@ Product.defaultProps ={
 }
 
 function Product({product}) {
+    const history=useHistory();
     const thumbnailUrl = product.thumbnail ? `${STATIC_HOST}${product.thumbnail?.url}`: THUMBNAIL_PLACEHOLDER;
     //nếu thumbnail không bị null thì mới chấm đến url  
+    const handleClick=()=>{
+        history.push(`/products/${product.id}`);
+    };
     return (
-        <Box padding={1}>   
+        <Box padding={1} onClick={handleClick}>   
             <Box padding={1} height="216px">
                 <img src={thumbnailUrl} alt={product.name} width="100%"/>
 
@@ -26,7 +32,7 @@ function Product({product}) {
             <Typography variant="body2">{product.name}</Typography>
             <Typography variant="body2">
                 <Box component="span" fontSize="16px" fontWeight="bold" marginRight={1}> 
-                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.salePrice)}
+                    {formatPrice(product.salePrice)}
                 </Box>
 
                 {product.promotionPercent > 0 ? ` -${product.promotionPercent}%`:''}
