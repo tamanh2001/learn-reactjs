@@ -2,11 +2,9 @@ import axios from "axios";
 
 const axiosClient = axios.create({
     baseURL: 'https://api.ezfrontend.com/',
-    // baseURL: 'https://sample-api-cuongnc.herokuapp.com/',
     headers: {
         'Content-Type': 'application/json',
     },
-
 });
 // Add a request interceptor
 axiosClient.interceptors.request.use(function(config) {

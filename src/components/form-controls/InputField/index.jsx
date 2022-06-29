@@ -1,7 +1,7 @@
 import { TextField } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 
 
 InputField.propTypes = {

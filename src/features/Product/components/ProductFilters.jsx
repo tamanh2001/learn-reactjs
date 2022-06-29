@@ -1,9 +1,8 @@
-import React from 'react';
+import { Box } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { Box, makeStyles } from '@material-ui/core';
+import React from 'react';
 import FilterByCategory from './Filters/FilterByCategory';
 import FilterByPrice from './Filters/FilterByPrice';
-import { Filter } from '@material-ui/icons';
 import FilterByService from './Filters/FilterByService';
 
 ProductFilters.propTypes = {

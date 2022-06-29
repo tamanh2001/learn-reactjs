@@ -1,6 +1,4 @@
-const { createSlice } = require("@reduxjs/toolkit");
-
-
+const { createSlice } = require('@reduxjs/toolkit');
 
 const counterSlice = createSlice({
     name: 'counter',
@@ -16,7 +14,6 @@ const counterSlice = createSlice({
             return state - 1;
         },
     },
-
 });
 // dùng object destructuring được tạo ra từ việc gọi hàm createSlice để lấy thông tin của actions và reducer
 

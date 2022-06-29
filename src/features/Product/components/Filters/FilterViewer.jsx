@@ -1,8 +1,6 @@
 import { Box, Chip, makeStyles } from '@material-ui/core';
-import { CreateNewFolderOutlined, FilterSharp } from '@material-ui/icons';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 FilterViewer.propTypes = {
     filters:PropTypes.object.isRequired,
